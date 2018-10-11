@@ -30,10 +30,14 @@ dependencies {
     }
     compile("org.springframework.boot:spring-boot-starter-jetty:${versions.springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-actuator:${versions.springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf:${versions.springBootVersion}")
 
     compile "org.apache.derby:derby:10.14.2.0"
 
     compile 'org.owasp.encoder:encoder:1.2.1'
 
     testCompile "junit:junit:4.12"
+
+    testCompile("org.springframework.boot:spring-boot-starter-test:${versions.springBootVersion}")
+
 }
