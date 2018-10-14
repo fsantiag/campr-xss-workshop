@@ -13,6 +13,7 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -22,9 +23,6 @@ public class HomeControllerTest {
 
     @Autowired
     private WebApplicationContext wac;
-
-    @Autowired
-    private InvoiceRepo repo;
 
     private MockMvc mockMvc;
 
@@ -42,7 +40,10 @@ public class HomeControllerTest {
 
     @Test
     public void all_should_not_allow_obvious_xss_attacks() throws Exception {
-        repo.add("<script>alert('xss!')</script>");
+        this.mockMvc.perform(
+                post("/").
+                        param("invoice", "<script>alert('xss!')</script>")
+        ).andExpect(status().isFound());
 
         this.mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
